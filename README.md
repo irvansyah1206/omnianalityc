@@ -2,7 +2,7 @@
 
 OmniAnalytic is a high-performance backend service designed to ingest, process, and analyze transaction data in real-time. It demonstrates a modern microservices architecture suitable for high-throughput financial applications.
 
-## 🚀 Tech Stack & Key Concepts (Senior Level)
+## 🚀 Tech Stack & Key Concepts
 
 This project is built to showcase advanced Java & Spring Boot capabilities:
 
