@@ -1,13 +1,11 @@
 package com.example.omnianalytic.service;
 
-import com.example.OmniAnalytic.model.Employee;
-import com.example.OmniAnalytic.repository.EmployeeRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.omnianalytic.model.Employee;
+import com.example.omnianalytic.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,11 +32,6 @@ public class EmployeeServiceTest {
 
     @InjectMocks
     private EmployeeService employeeService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void testSaveEmployee() {
