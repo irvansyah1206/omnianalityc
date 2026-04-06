@@ -1,27 +1,41 @@
 spring:
   application:
-    name: omnianalytics
-
+    name: OmniAnalytic
   datasource:
-    url: jdbc:postgresql://localhost:5432/omnidb
-    username: postgres
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
     password: password
-
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
-
+    properties:
+      hibernate:
+        format_sql: true
+  
+  # Disable other services that might cause connection errors during startup
   kafka:
     bootstrap-servers: localhost:9092
-    consumer:
-      auto-offset-reset: earliest
-    streams:
-      application-id: omni-streams-app
-
+    producer:
+      retries: 0
   data:
     redis:
       host: localhost
       port: 6379
     elasticsearch:
-      uris: http://localhost:9200
+      repositories:
+        enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.example.OmniAnalytic: DEBUG
+    org.springframework.data.elasticsearch: ERROR
+    org.springframework.kafka: ERROR
+    org.springframework.data.redis: ERROR

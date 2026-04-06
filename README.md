@@ -1,68 +1,73 @@
-# OmniAnalytic - Real-time Transaction Analytics Platform
+# OmniAnalytic - Java Spring Boot Demo Application
 
-OmniAnalytic is a high-performance backend service designed to ingest, process, and analyze transaction data in real-time. It demonstrates a modern microservices architecture suitable for high-throughput financial applications.
+This project is a Java Spring Boot application built with JDK 17 and Maven, demonstrating several core features and modern development practices.
 
-## 🚀 Tech Stack & Key Concepts
+## 🚀 Key Features
 
-This project is built to showcase advanced Java & Spring Boot capabilities:
+*   **RESTful API**: Implementation of various HTTP methods (GET, POST, PUT, DELETE).
+*   **Search & Pagination**: Search functionality for employees with built-in Spring Data JPA pagination.
+*   **AspectJ Logging**: Automatic logging of all requests and responses using Aspect-Oriented Programming (AOP).
+*   **In-Memory Database**: Uses H2 database for rapid development and testing (accessible at `/h2-console`).
+*   **Complex JPA Queries**: Demonstrates joining two tables (`Employee` and `Department`) using JPQL.
+*   **External API Integration**: A service method that calls an external API (e.g., www.google.com) using `RestTemplate`.
+*   **Unit Testing**: Comprehensive unit tests using JUnit 5 and Mockito.
 
-*   **Spring IoC & Core**: Clean architecture with Dependency Injection.
-*   **Java Stream API**: Functional programming style for data transformation pipelines.
-*   **Advance Native SQL**: Complex reporting using PostgreSQL Window Functions (`DENSE_RANK`, CTEs).
-*   **Containerization**: Full Docker support with `docker-compose` for all infrastructure dependencies.
-*   **Event-Driven Architecture**: Kafka for asynchronous event propagation and decoupling.
-*   **Stream Processing**: Kafka Streams (Ready) for real-time aggregation.
-*   **Caching & NoSQL**: Redis for high-speed caching and Elasticsearch for full-text search capabilities.
+## 🛠 Tech Stack
 
-## 🏗 Architecture Overview
+*   **Java 17**
+*   **Spring Boot 3.2.1**
+*   **Spring Data JPA**
+*   **Spring AOP (AspectJ)**
+*   **H2 Database**
+*   **Lombok**
+*   **Maven**
 
-```mermaid
-graph LR
-    Client[Client API] -->|REST| Service[Transaction Service]
-    Service -->|Persist| DB[(PostgreSQL)]
-    Service -->|Publish Event| Kafka{Kafka Broker}
-    Kafka -->|Stream Process| Analytics[Analytics Engine]
-    Analytics -->|Cache Hot Data| Redis[(Redis)]
-    Analytics -->|Index| Elastic[(Elasticsearch)]
-```
+## 🏗 Project Structure
 
-## 🛠 Prerequisites
-
-*   Java 17+
-*   Docker & Docker Compose
-*   Maven 3.8+
+- `com.example.OmniAnalytic.controller`: REST Controllers for handling HTTP requests.
+- `com.example.OmniAnalytic.service`: Business logic layer, including external API calls.
+- `com.example.OmniAnalytic.repository`: Data access layer using Spring Data JPA.
+- `com.example.OmniAnalytic.model`: JPA Entities (Employee, Department).
+- `com.example.OmniAnalytic.config`: Configuration classes (RestTemplate, Logging Aspect).
 
 ## 🏃‍♂️ How to Run
 
-1.  **Start Infrastructure**
-    Spin up PostgreSQL, Kafka, Zookeeper, Redis, and Elasticsearch:
-    ```bash
-    docker-compose up -d
-    ```
-
-2.  **Build the Application**
+1.  **Build the Application**
     ```bash
     mvn clean install
     ```
 
-3.  **Run the Application**
+2.  **Run the Application**
     ```bash
     mvn spring-boot:run
     ```
 
-## 💡 Key Features Implementation
+3.  **Access H2 Console**
+    - URL: `http://localhost:8080/h2-console`
+    - JDBC URL: `jdbc:h2:mem:testdb`
+    - Username: `sa`
+    - Password: `password`
 
-### 1. Advanced SQL Reporting
-Located in `TransactionRepository.java`, we utilize native SQL window functions to calculate merchant rankings efficiently without loading all data into memory.
+## 🧪 Testing the API
 
-### 2. Reactive-style Ingestion
-The `TransactionService.java` uses Java Streams to filter, map, and process transaction batches in a functional style, ensuring readability and maintainability.
+### 1. Create an Employee (POST)
+```bash
+curl -X POST http://localhost:8080/api/employees \
+-H "Content-Type: application/json" \
+-d '{"firstName": "John", "lastName": "Doe"}'
+```
 
-### 3. Infrastructure as Code
-The `docker-compose.yml` is production-ready, including configuration for Kafka listeners and Elasticsearch discovery modes.
+### 2. Search with Pagination (GET)
+```bash
+curl "http://localhost:8080/api/employees/search?query=John&page=0&size=10"
+```
 
-## 🔮 Future Roadmap
+### 3. Call External API (GET)
+```bash
+curl http://localhost:8080/api/employees/external
+```
 
-*   Implement Kafka Streams topology for real-time fraud detection.
-*   Add Redis caching for merchant configuration lookups.
-*   Integrate Elasticsearch for transaction search API.
+## 🧪 Running Tests
+```bash
+mvn test
+```
